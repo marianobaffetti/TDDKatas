@@ -1,26 +1,38 @@
 using Xunit;
 using Katas.Anagram;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace KatasTests
+namespace KatasTests.Anagram
 {
     public class AnagramFinderTests
     {
         [Fact]
-        public void Test1()
+        public void EmptyWordsThrowException()
         {
-            IList<string> validWords = new List<string>{ "the", "eyes", "they", "see"}; 
-            AnagramFinder finder = new AnagramFinder(validWords);
-            Assert.Throws<AnagramException>(()=> finder.FindTwoWordAnagrams("", ""));
+            Words words = new Words(new List<string>());
+            AnagramFinder finder = new AnagramFinder(words);
+            Assert.Throws<EmptyWordsException>(()=> finder.FindTwoWordAnagrams("", ""));
+        }
+
+        [Fact]        
+        public void LettersQuantityInResultSameAsInInput()
+        {
+            Words words = new Words(new List<string>{ "a", "b", "cde"});
+            AnagramFinder finder = new AnagramFinder(words);
+            var anagrams = finder.FindTwoWordAnagrams("a","b");
+            Assert.Equal(2,anagrams.Sum(aWord => aWord.Length));
         }
 
         [Fact]
-        public void Test2()
+        public void AnagramsShouldBeWords() 
         {
-            IList<string> validWords = new List<string>{ "the", "eyes", "they", "see"}; 
-            AnagramFinder finder = new AnagramFinder(validWords);
-            IList<string> anagrams = finder.FindTwoWordAnagrams("the", "eyes");
-            Assert.True(anagrams.Contains("they") && anagrams.Contains("see"));
+            Words words = new Words(new List<string>{ "a", "b", "cde"});
+            AnagramFinder finder = new AnagramFinder(words);
+            var firstWord = "a";
+            var secondWord = "c";
+            var anagrams = finder.FindTwoWordAnagrams(firstWord,secondWord);
+            Assert.True(words.Contains(anagrams));
         }
     }
 }

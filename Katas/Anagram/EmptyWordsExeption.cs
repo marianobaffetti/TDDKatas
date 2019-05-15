@@ -2,7 +2,7 @@ using System;
 
 namespace Katas.Anagram
 {
-    public class AnagramException : Exception
+    public class EmptyWordsException : Exception
     {
         
     }

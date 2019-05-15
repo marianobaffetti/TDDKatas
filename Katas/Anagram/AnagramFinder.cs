@@ -1,25 +1,26 @@
 using System;
 using System.Collections.Generic;
-using Katas;
+using Katas.Anagram;
 
 namespace Katas.Anagram
 {
     public class AnagramFinder
     {
-        private IList<string> validWords;
-        public AnagramFinder(IList<string> validWords)
+        private Words words;
+        public AnagramFinder(Words words)
         {
-            this.validWords = validWords;
-            
+            this.words = words;
         }
 
-        public  IList<string> FindTwoWordAnagrams(string firstWord, string secondWord)
+        public IList<string> FindTwoWordAnagrams(string firstWord, string secondWord)
         {
-            if(firstWord.IsEmpty() || secondWord.IsEmpty())
+            if (firstWord.IsEmpty())
             {
-                throw new AnagramException();
+                throw new EmptyWordsException();
             }
-            return new List<string> {"they", "see"};
+
+            return new List<string>{"a","b"};
         }
+
     }
 }
