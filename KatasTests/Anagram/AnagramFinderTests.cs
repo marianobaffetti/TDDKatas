@@ -10,29 +10,48 @@ namespace KatasTests.Anagram
         [Fact]
         public void EmptyWordsThrowException()
         {
-            Words words = new Words(new List<string>());
+            IList<Word> words = new List<Word>();
             AnagramFinder finder = new AnagramFinder(words);
-            Assert.Throws<EmptyWordsException>(()=> finder.FindTwoWordAnagrams("", ""));
+            Assert.Throws<EmptyWordsException>(()=> finder.FindTwoWordAnagrams(new Word(""), new Word("")));
         }
 
         [Fact]        
-        public void LettersQuantityInResultSameAsInInput()
+        public void LettersQuantityInAnagramsSameAsInInput()
         {
-            Words words = new Words(new List<string>{ "a", "b", "cde"});
+            IList<Word> words = new List<Word>{ new Word("a"), new Word("b"), new Word("cde")};
             AnagramFinder finder = new AnagramFinder(words);
-            var anagrams = finder.FindTwoWordAnagrams("a","b");
-            Assert.Equal(2,anagrams.Sum(aWord => aWord.Length));
+            var anagrams = finder.FindTwoWordAnagrams(new Word("a"),new Word("b"));
+            Assert.Equal(2,anagrams.Sum(aWord => aWord.Length()));
         }
 
         [Fact]
         public void AnagramsShouldBeWords() 
         {
-            Words words = new Words(new List<string>{ "a", "b", "cde"});
+            Word word_a = new Word("a");
+            var word_b = new Word("b");
+            var word_cde = new Word("cde");
+
+            IList<Word> words = new List<Word>{word_a, word_b, word_cde};
             AnagramFinder finder = new AnagramFinder(words);
-            var firstWord = "a";
-            var secondWord = "c";
+            var firstWord = new Word("a");
+            var secondWord = new Word("cde");
             var anagrams = finder.FindTwoWordAnagrams(firstWord,secondWord);
-            Assert.True(words.Contains(anagrams));
+            Assert.True(anagrams.All( word => words.Contains(word)));
+        }
+
+        [Fact]
+        public void AnagramsAreEmptyIfNotFound() 
+        {
+            var z = new Word("z");
+            var x = new Word("x");
+            var yyy = new Word("yyy");
+
+            var words = new List<Word>{z, x, yyy};
+            AnagramFinder finder = new AnagramFinder(words);
+            var firstWord = new Word("a");
+            var secondWord = new Word("c");
+            var anagrams = finder.FindTwoWordAnagrams(firstWord,secondWord);
+            Assert.False(anagrams.Any());
         }
     }
-}
+}       
