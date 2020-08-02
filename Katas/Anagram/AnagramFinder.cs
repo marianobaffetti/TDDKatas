@@ -17,6 +17,7 @@ namespace Katas.Anagram
         {
             if (firstWord.IsEmpty() || secondWord.IsEmpty())
                 throw new EmptyWordsException();
+                
 
             if (this.words.Contains(firstWord) && this.words.Contains(secondWord))
                 return new List<Word> { firstWord, secondWord };
